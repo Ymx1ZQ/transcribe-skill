@@ -88,6 +88,66 @@ for dep in ffmpeg curl jq base64; do
     fi
 done
 
-# ── Transcription pipeline (M3) ─────────────────────────────────────
-echo "transcribe.sh: pipeline not implemented yet" >&2
-exit 1
+# ── Transcription pipeline ──────────────────────────────────────────
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+
+mp3_path="$tmpdir/audio.mp3"
+b64_path="$tmpdir/audio.b64"
+payload_path="$tmpdir/payload.json"
+response_path="$tmpdir/response.json"
+
+if ! ffmpeg -y -i "$audio_file" -ar 16000 -ac 1 "$mp3_path" >/dev/null 2>&1; then
+    echo "Error: ffmpeg failed to convert $audio_file" >&2
+    exit 2
+fi
+
+base64 -w0 "$mp3_path" > "$b64_path"
+
+jq -n \
+    --arg model "$MODEL" \
+    --arg prompt "$prompt" \
+    --rawfile audio_b64 "$b64_path" \
+    '{
+        model: $model,
+        messages: [
+            {
+                role: "user",
+                content: [
+                    {type: "text", text: $prompt},
+                    {type: "input_audio", input_audio: {data: $audio_b64, format: "mp3"}}
+                ]
+            }
+        ]
+    }' > "$payload_path"
+
+http_code=$(curl -sS -o "$response_path" -w "%{http_code}" \
+    -X POST https://openrouter.ai/api/v1/chat/completions \
+    -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d @"$payload_path")
+
+if [ "$http_code" -lt 200 ] || [ "$http_code" -ge 300 ]; then
+    echo "Error: OpenRouter returned HTTP $http_code" >&2
+    cat "$response_path" >&2
+    exit 2
+fi
+
+transcription=$(jq -r '.choices[0].message.content // empty' "$response_path")
+if [ -z "$transcription" ]; then
+    echo "Error: empty transcription in API response" >&2
+    cat "$response_path" >&2
+    exit 2
+fi
+
+if [ "$json_output" = true ]; then
+    jq -n \
+        --arg transcription "$transcription" \
+        --arg model "$MODEL" \
+        --argjson cost "$(jq '.usage.cost // 0' "$response_path")" \
+        --argjson audio_tokens "$(jq '.usage.prompt_tokens_details.audio_tokens // 0' "$response_path")" \
+        --argjson completion_tokens "$(jq '.usage.completion_tokens // 0' "$response_path")" \
+        '{transcription: $transcription, model: $model, cost: $cost, audio_tokens: $audio_tokens, completion_tokens: $completion_tokens}'
+else
+    printf '%s\n' "$transcription"
+fi

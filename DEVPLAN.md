@@ -70,13 +70,15 @@ For each milestone: **(a) write the test first, (b) confirm it fails, (c) implem
 - [x] Implement argument parsing, dependency checks, env var check in `transcribe.sh`
 - [x] All three tests pass
 
-### M3 — Core transcription pipeline ⬜
+### M3 — Core transcription pipeline ✅
 
-- [ ] **Test first**: `tests/test_basic.sh` — pass `tests/fixtures/hello.mp3`, expect exit 0 and non-empty stdout (and the output should contain at least one alphabetic character — a real transcription, not whitespace)
-- [ ] **Test first**: `tests/test_json_output.sh` — pass `--json`, expect output to be valid JSON with key `transcription`
-- [ ] Implement: ffmpeg conversion → base64 → OpenRouter POST → response parsing → stdout (or JSON)
-- [ ] Cleanup of temp files even on failure (`trap`)
-- [ ] Both tests pass
+- [x] **Test first**: `tests/test_basic.sh` — pass `tests/fixtures/prova.ogg` (real voice message saying "Questa è una prova"), expect exit 0, non-empty stdout, transcription contains "prova"
+- [x] **Test first**: `tests/test_json_output.sh` — pass `--json`, expect output to be valid JSON with keys `transcription` and `model`
+- [x] Implement: ffmpeg conversion → base64 → OpenRouter POST → response parsing → stdout (or JSON)
+- [x] Cleanup of temp files even on failure (`trap`)
+- [x] Both tests pass
+
+Real-world result on the fixture: `"Questa è una prova."` for $0.0000555.
 
 ### M4 — SKILL.md trigger semantics ⬜
 
