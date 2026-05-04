@@ -62,13 +62,13 @@ For each milestone: **(a) write the test first, (b) confirm it fails, (c) implem
 - [x] `install.sh` follows the convention used by `social-scraper/install.sh` (cp + `--force`)
 - [x] Smoke test (`tests/test_install.sh`): `./install.sh --force` then `ls ~/.claude/skills/transcribe/SKILL.md`
 
-### M2 — Argument parsing & validation ⬜
+### M2 — Argument parsing & validation ✅
 
-- [ ] **Test first**: `tests/test_missing_key.sh` — unset `OPENROUTER_API_KEY`, expect exit 1 + clear error
-- [ ] **Test first**: `tests/test_missing_file.sh` — pass `/nonexistent.mp3`, expect exit 1 + clear error
-- [ ] **Test first**: `tests/test_no_args.sh` — call with no args, expect exit 1 + usage on stderr
-- [ ] Implement argument parsing, dependency checks, env var check in `transcribe.sh`
-- [ ] All three tests pass
+- [x] **Test first**: `tests/test_missing_key.sh` — unset `OPENROUTER_API_KEY`, expect exit 1 + clear error
+- [x] **Test first**: `tests/test_missing_file.sh` — pass `/nonexistent.mp3`, expect exit 1 + clear error
+- [x] **Test first**: `tests/test_no_args.sh` — call with no args, expect exit 1 + usage on stderr
+- [x] Implement argument parsing, dependency checks, env var check in `transcribe.sh`
+- [x] All three tests pass
 
 ### M3 — Core transcription pipeline ⬜
 
