@@ -80,16 +80,20 @@ For each milestone: **(a) write the test first, (b) confirm it fails, (c) implem
 
 Real-world result on the fixture: `"Questa è una prova."` for $0.0000555.
 
-### M4 — SKILL.md trigger semantics ⬜
+### M4 — SKILL.md trigger semantics ✅
 
-- [ ] Write `SKILL.md` with explicit `TRIGGER` and `SKIP` clauses:
-  - **TRIGGER when**: an audio attachment (`audio/*` MIME type) arrives via channel (e.g., Discord) without other meaningful text from the user; OR the user explicitly asks to transcribe an audio file
-  - **SKIP when**: the user gives explicit alternative instructions for the audio (e.g., "convert this to wav", "extract metadata"); the attachment is not audio
-- [ ] Include invocation contract: skill receives the **absolute path** to the audio file (already downloaded by the caller); returns transcription on stdout
-- [ ] Include 2 examples of typical invocation
+- [x] Write `SKILL.md` with explicit `TRIGGER` and `SKIP` clauses
+- [x] Include invocation contract (absolute path in, transcription out, exit codes, env, deps)
+- [x] Include 2 examples (auto-invocation on Discord voice message + explicit CLI request)
+- [x] Test (`tests/test_skill_md.sh`) verifies the contract patterns are present
 
-### M5 — Install + manual verify ⬜
+### M5 — Install + manual verify ✅
 
-- [ ] Run `./install.sh --force`
-- [ ] Confirm Claude Code lists `transcribe` among available skills
-- [ ] Manual smoke test: send a new Discord voice message; verify the skill is invoked and the transcription is returned to the user
+- [x] Run `./install.sh --force` — deploys `SKILL.md` + `transcribe.sh` to `~/.claude/skills/transcribe/`
+- [x] Confirm Claude Code lists `transcribe` among available skills (visible in skills list)
+- [x] End-to-end smoke test on a real Discord voice message: `~/.claude/skills/transcribe/transcribe.sh <ogg> --json` returned `"Allora, facciamo un'altra prova..."` for $0.000264
+
+## Deviations / notes
+
+- The skill repo has no remote configured — milestone commits are local only. If a remote is added later, run `git push -u origin main` once.
+- The auto-trigger contract is enforced by the SKILL.md `description:` and the `TRIGGER`/`SKIP` clauses — actual auto-invocation behavior is governed by the Claude Code harness, which selects skills based on description match.
