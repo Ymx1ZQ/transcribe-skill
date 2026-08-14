@@ -78,7 +78,8 @@ For each milestone: **(a) write the test first, (b) confirm it fails, (c) implem
 - [x] Cleanup of temp files even on failure (`trap`)
 - [x] Both tests pass
 
-Real-world result on the fixture: `"Questa è una prova."` for $0.0000555.
+**Deviations:**
+- Real-world result on the fixture: `"Questa è una prova."` for $0.0000555.
 
 ### M4 — SKILL.md trigger semantics ✅
 
@@ -92,6 +93,10 @@ Real-world result on the fixture: `"Questa è una prova."` for $0.0000555.
 - [x] Run `./install.sh --force` — deploys `SKILL.md` + `transcribe.sh` to `~/.claude/skills/transcribe/`
 - [x] Confirm Claude Code lists `transcribe` among available skills (visible in skills list)
 - [x] End-to-end smoke test on a real Discord voice message: `~/.claude/skills/transcribe/transcribe.sh <ogg> --json` returned `"Allora, facciamo un'altra prova..."` for $0.000264
+
+### M6 — Devplan hygiene: fold stray prose into a Deviations block ✅
+
+- [x] Move the prose paragraph sitting under M3's closed task list into a `**Deviations:**` block
 
 ## Deviations / notes
 
