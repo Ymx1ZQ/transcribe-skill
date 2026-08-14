@@ -56,47 +56,7 @@ Exit codes: `0` success, `1` bad input / missing dep / missing key, `2` API erro
 
 For each milestone: **(a) write the test first, (b) confirm it fails, (c) implement, (d) confirm it passes.**
 
-### M1 — Scaffolding ✅
-
-- [x] Create `SKILL.md`, `README.md`, `install.sh`, `transcribe.sh` (stub), `run_tests.sh`, `tests/`
-- [x] `install.sh` follows the convention used by `social-scraper/install.sh` (cp + `--force`)
-- [x] Smoke test (`tests/test_install.sh`): `./install.sh --force` then `ls ~/.claude/skills/transcribe/SKILL.md`
-
-### M2 — Argument parsing & validation ✅
-
-- [x] **Test first**: `tests/test_missing_key.sh` — unset `OPENROUTER_API_KEY`, expect exit 1 + clear error
-- [x] **Test first**: `tests/test_missing_file.sh` — pass `/nonexistent.mp3`, expect exit 1 + clear error
-- [x] **Test first**: `tests/test_no_args.sh` — call with no args, expect exit 1 + usage on stderr
-- [x] Implement argument parsing, dependency checks, env var check in `transcribe.sh`
-- [x] All three tests pass
-
-### M3 — Core transcription pipeline ✅
-
-- [x] **Test first**: `tests/test_basic.sh` — pass `tests/fixtures/prova.ogg` (real voice message saying "Questa è una prova"), expect exit 0, non-empty stdout, transcription contains "prova"
-- [x] **Test first**: `tests/test_json_output.sh` — pass `--json`, expect output to be valid JSON with keys `transcription` and `model`
-- [x] Implement: ffmpeg conversion → base64 → OpenRouter POST → response parsing → stdout (or JSON)
-- [x] Cleanup of temp files even on failure (`trap`)
-- [x] Both tests pass
-
-**Deviations:**
-- Real-world result on the fixture: `"Questa è una prova."` for $0.0000555.
-
-### M4 — SKILL.md trigger semantics ✅
-
-- [x] Write `SKILL.md` with explicit `TRIGGER` and `SKIP` clauses
-- [x] Include invocation contract (absolute path in, transcription out, exit codes, env, deps)
-- [x] Include 2 examples (auto-invocation on Discord voice message + explicit CLI request)
-- [x] Test (`tests/test_skill_md.sh`) verifies the contract patterns are present
-
-### M5 — Install + manual verify ✅
-
-- [x] Run `./install.sh --force` — deploys `SKILL.md` + `transcribe.sh` to `~/.claude/skills/transcribe/`
-- [x] Confirm Claude Code lists `transcribe` among available skills (visible in skills list)
-- [x] End-to-end smoke test on a real Discord voice message: `~/.claude/skills/transcribe/transcribe.sh <ogg> --json` returned `"Allora, facciamo un'altra prova..."` for $0.000264
-
-### M6 — Devplan hygiene: fold stray prose into a Deviations block ✅
-
-- [x] Move the prose paragraph sitting under M3's closed task list into a `**Deviations:**` block
+Archived: M1-M6, all closed and shipped — see [DEVPLAN_ARCHIVE.md](DEVPLAN_ARCHIVE.md).
 
 ## Deviations / notes
 
