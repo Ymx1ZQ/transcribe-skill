@@ -18,7 +18,7 @@ if [ ! -f "$FIXTURE" ]; then
 fi
 
 set +e
-out=$(bash "$SCRIPT_DIR/transcribe.sh" "$FIXTURE" 2>&1)
+out=$(bash "$SCRIPT_DIR/transcribe/transcribe.sh" "$FIXTURE" 2>&1)
 ec=$?
 set -e
 

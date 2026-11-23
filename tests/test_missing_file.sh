@@ -5,7 +5,7 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 set +e
-out=$(OPENROUTER_API_KEY=stub bash "$SCRIPT_DIR/transcribe.sh" /nonexistent/path.mp3 2>&1 1>/dev/null)
+out=$(OPENROUTER_API_KEY=stub bash "$SCRIPT_DIR/transcribe/transcribe.sh" /nonexistent/path.mp3 2>&1 1>/dev/null)
 ec=$?
 set -e
 

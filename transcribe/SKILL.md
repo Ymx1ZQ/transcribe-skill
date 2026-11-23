@@ -21,7 +21,7 @@ This skill takes an audio file path on disk and returns the transcription as pla
 
 ## Invocation contract
 
-The skill is exposed as a single shell script:
+The skill is exposed as a single shell script, `transcribe.sh`, stored in this skill's own folder next to `SKILL.md`. Run it from that folder: `<skill-dir>` below is the directory this `SKILL.md` was loaded from (for example `~/.claude/skills/transcribe`).
 
 ```
 transcribe.sh <audio_file> [--prompt "<custom prompt>"] [--json]
@@ -52,14 +52,14 @@ transcribe.sh <audio_file> [--prompt "<custom prompt>"] [--json]
 # 2. Download it:
 download_attachment(chat_id, message_id) → /home/.../inbox/abc.ogg
 # 3. Invoke this skill:
-~/.claude/skills/transcribe/transcribe.sh /home/.../inbox/abc.ogg
+<skill-dir>/transcribe.sh /home/.../inbox/abc.ogg
 # 4. Use the returned text as the user's spoken intent and respond accordingly.
 ```
 
 **Explicit user request from CLI:**
 
 ```
-~/.claude/skills/transcribe/transcribe.sh ~/Downloads/recording.m4a --json
+<skill-dir>/transcribe.sh ~/Downloads/recording.m4a --json
 ```
 
 ## Notes

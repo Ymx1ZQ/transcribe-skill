@@ -27,10 +27,10 @@ Auto-invoked when an audio attachment arrives from a connected channel (Discord,
 
 ```
 skills/transcribe/
-├── SKILL.md              # trigger description for Claude
-├── README.md             # short user-facing doc
-├── install.sh            # deploys to ~/.claude/skills/transcribe/
-├── transcribe.sh         # main CLI script
+├── README.md             # short user-facing doc, install by copying transcribe/
+├── transcribe/           # the payload: the only folder an assistant installs
+│   ├── SKILL.md          # trigger description for Claude
+│   └── transcribe.sh     # main CLI script
 ├── run_tests.sh          # entry point for tests
 └── tests/
     ├── fixtures/
@@ -57,6 +57,20 @@ Exit codes: `0` success, `1` bad input / missing dep / missing key, `2` API erro
 For each milestone: **(a) write the test first, (b) confirm it fails, (c) implement, (d) confirm it passes.**
 
 Archived: M1-M6, all closed and shipped — see [DEVPLAN_ARCHIVE.md](DEVPLAN_ARCHIVE.md).
+
+### M7 — The repo distributes the skill as a plain folder ✅
+
+**Why:** the payload was the repository root and `install.sh` copied two named files into `~/.claude/skills/`, which served one assistant and wrote outside the repo. A folder named like the skill can be copied by hand or fetched by the Codex skill installer into any assistant's skills directory.
+
+**Approach:** move `SKILL.md` and `transcribe.sh` into `transcribe/`, point the tests and `SKILL.md` at the new paths, delete the installer and its test, and rewrite the README Install section as a copy procedure with an update step.
+
+**Tasks:**
+- [x] `git mv` `SKILL.md` and `transcribe.sh` into `transcribe/`, keeping the executable bit
+- [x] Update the test scripts and `SKILL.md` (script is run from the skill's own folder)
+- [x] Remove `install.sh` and `tests/test_install.sh`
+- [x] Rewrite the README Install section and the layout tree
+
+**Done when:** `bash run_tests.sh` passes every test that does not need the network, no live file mentions `install.sh`, and the README documents the copy route for Claude Code, Codex, Gemini CLI and opencode.
 
 ## Deviations / notes
 

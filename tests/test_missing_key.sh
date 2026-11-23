@@ -10,7 +10,7 @@ trap "rm -f $tmp" EXIT
 echo "stub" > "$tmp"
 
 set +e
-out=$(env -u OPENROUTER_API_KEY bash "$SCRIPT_DIR/transcribe.sh" "$tmp" 2>&1 1>/dev/null)
+out=$(env -u OPENROUTER_API_KEY bash "$SCRIPT_DIR/transcribe/transcribe.sh" "$tmp" 2>&1 1>/dev/null)
 ec=$?
 set -e
 

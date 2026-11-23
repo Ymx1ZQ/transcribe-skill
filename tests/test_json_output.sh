@@ -12,7 +12,7 @@ if [ -z "${OPENROUTER_API_KEY:-}" ]; then
 fi
 
 set +e
-out=$(bash "$SCRIPT_DIR/transcribe.sh" --json "$FIXTURE" 2>/dev/null)
+out=$(bash "$SCRIPT_DIR/transcribe/transcribe.sh" --json "$FIXTURE" 2>/dev/null)
 ec=$?
 set -e
 

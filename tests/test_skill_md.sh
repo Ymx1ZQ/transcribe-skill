@@ -4,7 +4,7 @@
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SKILL="$SCRIPT_DIR/SKILL.md"
+SKILL="$SCRIPT_DIR/transcribe/SKILL.md"
 
 if [ ! -f "$SKILL" ]; then
   echo "FAIL: $SKILL missing" >&2; exit 1

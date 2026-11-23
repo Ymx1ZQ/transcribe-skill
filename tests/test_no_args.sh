@@ -5,7 +5,7 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 set +e
-out=$(bash "$SCRIPT_DIR/transcribe.sh" 2>&1 1>/dev/null)
+out=$(bash "$SCRIPT_DIR/transcribe/transcribe.sh" 2>&1 1>/dev/null)
 ec=$?
 set -e
 
